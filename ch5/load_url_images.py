@@ -35,7 +35,7 @@ for link in all_links:
             try:
                 images = urlopen(full_path)
                 f = open(os.path.join(images_dir,filename),"wb")
-                f.write(image.read())
+                f.write(images.read())
                 f.close()
             except:
                 print("{} 無法讀取!".format(filename))

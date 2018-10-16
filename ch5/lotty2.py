@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-url="http://www.taiwanlottery.com.tw/"
+# url="http://www.taiwanlottery.com.tw/"
+url = "http://www.taiwanlottery.com.tw/index_new.aspx"
 html=requests.get(url)
 sp = BeautifulSoup(html.text,"html.parser")
 
