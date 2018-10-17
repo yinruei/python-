@@ -29,12 +29,12 @@ for link in all_links:
         if attr != None and (".jpg" in attr or ".png" in attr):
             #設定圖檔完整路徑
             full_path = attr
-            filename = full_path.split("/")[-1]
-            print(full_path)
+            filename = full_path.split("/")[-1]#取得圖檔名,-1表示從後面數來第一個斜線去做分割
             #儲存圖片
             try:
                 images = urlopen(full_path)
-                f = open(os.path.join(images_dir,filename),"wb")
+                f = open(os.path.join(images_dir,filename),"wb")# wb以二进制写模式打开 
+                print(f)
                 f.write(images.read())
                 f.close()
             except:
