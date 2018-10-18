@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+from pylab import *
 
+zhfont1 = matplotlib.font_manager.FontProperties(fname='C:\Windows\Fonts\msjh.ttc')
 # import matplotlib 
 # print(matplotlib.matplotlib_fname())
 listx1 = [1,5,7,9,13,16]
@@ -13,8 +15,9 @@ plt.plot(listx2, listy2, color="red", linewidth=5, linestyle="--", label="Female
 plt.legend()
 plt.xlim(0, 20)
 plt.ylim(0, 100)
-plt.title("Pocket Money")
-plt.xlabel("age")
-plt.ylabel("錢")
+plt.title("我成功了",fontproperties=zhfont1)
+plt.xlabel("age",fontproperties=zhfont1)
+plt.ylabel("錢",fontproperties=zhfont1)
+
 
 plt.show()
