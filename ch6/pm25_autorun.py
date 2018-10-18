@@ -1,17 +1,23 @@
 import hashlib,os,requests,sqlite3,ast
 from bs4 import BeautifulSoup
 
-# cur_path = os.path.dirname(__file__)
+cur_path = os.path.dirname(os.path.abspath(__file__))
+print("現在目錄路徑:"+cur_path)
 
-# conn = sqlite3.connect(cur_path + '/' + 'DataBase_auto_PM25.sqlite') # 建立資料庫連線
-conn = sqlite3.connect("DataBase_auto_PM25.sqlite")#建立資料庫連線
+conn = sqlite3.connect(cur_path + '/' + 'DataBase_auto_PM25.sqlite')# 建立資料庫連線
+# conn = sqlite3.connect("DataBase_auto_PM25.sqlite")#建立資料庫連線
 cursor = conn.cursor() # 建立 cursor 物件
 
 # 建立一個資料表
+# sqlstr='''
+# CREATE TABLE IF NOT EXISTS TablePM25 ("no" INTEGER PRIMARY KEY AUTOINCREMENT 
+# NOT NULL UNIQUE ,"SiteName" TEXT NOT NULL ,"PM25" INTEGER, "time" DATETIME)
+# '''
+
 sqlstr='''
-CREATE TABLE IF NOT EXISTS TablePM25 ("no" INTEGER PRIMARY KEY AUTOINCREMENT 
-NOT NULL UNIQUE ,"SiteName" TEXT NOT NULL ,"PM25" INTEGER, "time" DATETIME)
+CREATE TABLE IF NOT EXISTS TablePM25 ("SiteName" TEXT NOT NULL ,"PM2.5(μg/m3)" INTEGER, "time" DATETIME)
 '''
+
 cursor.execute(sqlstr)
 
 url = "http://opendata.epa.gov.tw/webapi/Data/ATM00625/?$skip=0&$top=1000&format=json"
@@ -33,7 +39,9 @@ for site in jsondata:
     print("站名:{}   PM2.5={}".format(SiteName,PM25))
     time = site["DataCreationDate"]
     # 新增一筆記錄
-    sqlstr="insert into TablePM25 values({},'{}',{},'{}')" .format(n,SiteName,PM25,time)
+    # sqlstr="insert into TablePM25 values({},'{}',{},'{}')" .format(n,SiteName,PM25,time)
+    sqlstr="insert into TablePM25 values('{}',{},'{}')" .format(SiteName,PM25,time)
+ 
     cursor.execute(sqlstr)
     n+=1
     conn.commit() # 主動更新  
