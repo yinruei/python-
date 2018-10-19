@@ -17,7 +17,7 @@ with open('C:\\Users\\yinruei\\Desktop\\python初學特訓班\\practice\\pratice
     # csv_writer = csv.writer(csvfile)
     for row in rows:
         # print(row)
-        for n in list1:
+        cdfor n in list1:
             data = row+str(n)
             
             f.write(data+"\n")
