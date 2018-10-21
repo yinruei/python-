@@ -1,38 +1,26 @@
-import os,csv
-import pandas as pd
+import os
 
-os.system("mkdir practice")
-list1 = [1,2,3,4]
-os.system('rm pratice.txt')
-rows  = ['col','a','b','c']
-list1 = [1,2,3,4]
-print(rows[0:3])
-print(list1[0])
-for row in rows:
-    # print(row)
-    for n in list1:
-        print(row+str(n))
-
-with open('C:\\Users\\yinruei\\Desktop\\python初學特訓班\\practice\\pratice.csv','w', newline='') as f:
-    # csv_writer = csv.writer(csvfile)
-    for row in rows:
-        # print(row)
-        cdfor n in list1:
-            data = row+str(n)
-            
-            f.write(data+"\n")
-    # for n in list1:
-    #     cl = "col"+str(n)
-    #     csv_writer.writecolumn([cl])
-    #     a  = "a"+str(n)
-    #     b  = "b"+str(n)
-
-    #     c  = "c"+str(n)
-
-    #先写入columns_name
-    # for n in list1:
-    # csv_writer.writerow(["col1","col2","col3","clo4"])
-    # # #写入多行用writerows
-    # # csv_writer.writerows([["a1,a2,a3,a4"],["b1,b2,b3,b4"],["c1,c2,c3,c4"]])
-    # csv_writer.writerows([["a1","a2","a3","a4"],["b1","b2","b3","b4"]])#,["b1,b2,b3,b4"],["c1,c2,c3,c4"]])
-
+os.system('rm pratice.csv')
+rows  = ["col","a","b","c"]
+# print(len(rows))
+# print(rows[0])
+with open('C:\\Users\\蘇胤瑞\\python初學特訓班\\practice\\pratice.csv','w') as f:
+    for i in range(len(rows)):    
+        for row in range(len(rows)):
+            data = rows[i]+str(row+1)
+            if row == len(rows)-1:
+                data = data+"\n"
+            elif row != len(rows)-1:
+                data = data+","
+            f.write(data)
+#================================================================================
+n = 4
+rows  = ["col","a","b","c","d"]
+with open('C:\\Users\\蘇胤瑞\\python初學特訓班\\practice\\pratice2.csv','w') as f:
+    for data in rows: 
+        for row in range(1,n+1):
+            if row == len(rows)-1:
+                data1 = data+str(row)+"\n"
+            else:
+                data1 = data+str(row)+","
+            f.write(data1)      
