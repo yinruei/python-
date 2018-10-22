@@ -14,13 +14,12 @@ with open('C:\\Users\\蘇胤瑞\\python初學特訓班\\practice\\pratice.csv','
                 data = data+","
             f.write(data)
 #================================================================================
-n = 4
 rows  = ["col","a","b","c","d"]
 with open('C:\\Users\\蘇胤瑞\\python初學特訓班\\practice\\pratice2.csv','w') as f:
     for data in rows: 
-        for row in range(1,n+1):
+        for row in range(1,len(rows)):
             if row == len(rows)-1:
                 data1 = data+str(row)+"\n"
             else:
                 data1 = data+str(row)+","
-            f.write(data1)      
+            f.write(data1)    
