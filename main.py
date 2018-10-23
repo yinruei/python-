@@ -188,8 +188,15 @@ print(calculate.add(3,5))
 print(supercalculate.addAdvanced(3,5,6,7))
 '''
 #
+'''
 import cal.calculate
 import cal.supercalculate
 
 print(cal.calculate.add(3,5))
 print(cal.supercalculate.addAdvanced(3,4,5,6,7))
+'''
+#import特殊寫法，較prefer
+from cal.calculate import add
+from cal.supercalculate import addAdvanced
+print(add(3,5))
+print(addAdvanced(3,4,5,6,7))
