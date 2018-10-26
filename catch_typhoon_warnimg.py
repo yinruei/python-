@@ -1,21 +1,43 @@
 import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 
+def main_url():
+    global listarr
+    driver.get(url)
+    time.sleep(5)
+    listarr = driver.find_elements_by_class_name("typhoon_id")[i:]
+if __name__=="__main__":
+    driver = webdriver.Chrome() 
+    driver.maximize_window()
+    url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
+    i,listarr = 0,None
+    main_url()
+    while listarr:
+        listarr[0].click()
+        time.sleep(10)
+        print(driver.current_url)
+        i+=1
+        main_url()
 
-driver = webdriver.Chrome() # 如果你沒有把webdriver放在同一個資料夾中，必須指定位置給他
-url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
-driver.get(url)
 
-time.sleep(3) # 等待javascript渲染出來，當然這個部分還有更進階的作法，關鍵字是implicit wait, explicit wait，有興趣可以自己去找
-# driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()
-list1 =driver.find_elements_by_class_name("typhoon_id")
-list1[1].click()
-print(list1[1].text)
-print(len(list1))
-# print(list1[0].text)
-#  time.sleep(5)
+# # driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()
+
+
+#     # //*[@id="content2"]/div[2]/table/tbody/tr[3]/td[2]/a
+#     time.sleep(5)
+#     # now_url = driver.current_url
+#     # driver.get(now_url)
+#     # ty_info = driver.find_elements_by_class_name("typhoon_detail")
+#     # print(ty_info[0].text)
+#     # alt = ty_info.find_elements_by_css_selector(".alt")
+#     # for name_list in alt:
+#     #      print(name_list.text)
+    
+#     print("now_url",now_url)
+#     driver.back()
+#     driver.refresh()
+    # driver.find_element_by_xpath('//a[@class=&quot;class name&quot;][i+1]').click() 
 
 
 
