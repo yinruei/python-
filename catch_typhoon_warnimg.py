@@ -1,21 +1,65 @@
 import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
-
-driver = webdriver.Chrome() # 如果你沒有把webdriver放在同一個資料夾中，必須指定位置給他
-url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
+url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/typhoon?year=2018&num=201822&name=MANGKHUT&from_warning=true"
+driver = webdriver.Chrome()
 driver.get(url)
+alt =driver.find_elements_by_css_selector(".alt")#type為list
+print(alt[0].text)#第0個是颱風名稱
+print(alt[2].text)#第2個是發佈時間
 
-time.sleep(3) # 等待javascript渲染出來，當然這個部分還有更進階的作法，關鍵字是implicit wait, explicit wait，有興趣可以自己去找
-# driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()
-list1 =driver.find_elements_by_class_name("typhoon_id")
-list1[1].click()
-print(list1[1].text)
-print(len(list1))
-# print(list1[0].text)
-#  time.sleep(5)
+def main_url():
+    global listarr
+    driver.get(url)
+    time.sleep(5)
+    listarr = driver.find_elements_by_class_name("typhoon_id")[i:]
+    print("listarr",listarr[0])
+
+'''
+if __name__=="__main__":
+    driver = webdriver.Chrome() 
+    driver.maximize_window()
+    url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
+    i = 0 
+    # driver = webdriver.Chrome(executable_path=".exe黨的絕對路徑")
+    # i,listarr = 0,None
+    main_url()
+    while listarr:
+        # print("while listarr",listarr)
+        listarr[0].click()
+        time.sleep(8)
+        # driver.implicitly_wait(10)#可以click到最後
+        f = open("driver.log","a")
+        f.write(driver.current_url)
+        f.write('\n')#显示写入换行
+        # print(driver.current_url)
+        i+=1
+        main_url()
+'''    
+
+
+# # driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()
+
+
+#     # //*[@id="content2"]/div[2]/table/tbody/tr[3]/td[2]/a
+#     time.sleep(5)
+#     # now_url = driver.current_url
+#     # driver.get(now_url)
+#     # ty_info = driver.find_elements_by_class_name("typhoon_detail")
+#     # print(ty_info[0].text)
+#     # alt = ty_info.find_elements_by_css_selector(".alt")
+#     # for name_list in alt:
+#     #      print(name_list.text)
+    
+#     print("now_url",now_url)
+#     driver.back()
+#     driver.refresh()
+    # driver.find_element_by_xpath('//a[@class=&quot;class name&quot;][i+1]').click() 
 
 
 
