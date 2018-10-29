@@ -1,4 +1,3 @@
-import requests
 from selenium import webdriver
 # from selenium.common.exceptions import TimeoutException
 # from selenium.webdriver.support.ui import WebDriverWait
@@ -14,14 +13,14 @@ import time
 def main_url():
     global listarr
     driver.get(url)
-    # time.sleep(5)
+    time.sleep(10)
     listarr = driver.find_elements_by_class_name("typhoon_id")[i:]
     # print("listarr",listarr[0])
 
 if __name__=="__main__":
     driver = webdriver.Chrome() 
     driver.maximize_window()
-    driver.implicitly_wait(10)#可以click到最後
+    # driver.implicitly_wait(10)#可以click到最後
     url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
     i = 0 
     # driver = webdriver.Chrome(executable_path=".exe黨的絕對路徑")
@@ -37,7 +36,6 @@ if __name__=="__main__":
         # print(driver.current_url)
         i+=1
         main_url()
- 
 
 
 # # driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()

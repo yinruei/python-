@@ -22,11 +22,11 @@ end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_ti
 end_time   = driver.find_elements_by_xpath("//td[@align='left']")[11].text
 
 # print(">>>>>")
-test_dict = {}
-
+data={}
+list1=[]
 if len(start_time) <= 19:
-    sea_warn_start = start_time[0:2]+ start_title[0:2]+":"+ start_time[3:]    #start_title[4].text[0:2], start_time[9].text[0:2] + end_title[5].text[0:2]
-    sea_warn_end   = end_time[0:2]+ end_title[0:2]+":"+ end_time[3:]
+    sea_warn_start = start_time[0:2] + start_title[0:2] + ":" + start_time[3:]    #start_title[4].text[0:2], start_time[9].text[0:2] + end_title[5].text[0:2]
+    sea_warn_end   = end_time[0:2]   + end_title[0:2]   + ":" + end_time[3:]
     print("海上發布",sea_warn_start)
     print("海上解除",sea_warn_end)
 
@@ -35,15 +35,14 @@ else:
     land_warn_start = start_time[20:22] + start_title[0:2]+ ":" + start_time[23:]
     land_warn_end   = end_time[0:2]     + end_title[0:2]  + ":" + end_time[3:19]
     sea_warn_end    = end_time[20:22]   + end_title[0:2]  + ":" + end_time[23:]
-    print("海上發布",sea_warn_start)
-    print("陸上發布",land_warn_start)
-    print("陸上解除",land_warn_end)
-    print("海上解除",sea_warn_end)
+    print(sea_warn_start)
+    print(land_warn_start)
+    print(land_warn_end)
+    print(sea_warn_end)
 
-test_dict[alt] = sea_warn_start
-with open('data.json', 'w', encoding = 'utf-8') as f:
-    test_dict[alt] = sea_warn_start + land_warn_start + land_warn_end + sea_warn_end
-    json.dump(test_dict, f)
+data[alt] = sea_warn_start
+with open('typhoon_warning.json', 'w', encoding = 'utf-8') as f:
+    json.dump(data,f)
 
 
 #發布兩次警報的
