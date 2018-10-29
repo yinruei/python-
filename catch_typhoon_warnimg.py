@@ -1,29 +1,27 @@
 import requests
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.common.exceptions import TimeoutException
+# from selenium.webdriver.support.ui import WebDriverWait
 import time
 
-url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/typhoon?year=2018&num=201822&name=MANGKHUT&from_warning=true"
-driver = webdriver.Chrome()
-driver.get(url)
-alt =driver.find_elements_by_css_selector(".alt")#type為list
-print(alt[0].text)#第0個是颱風名稱
-print(alt[2].text)#第2個是發佈時間
+# url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/typhoon?year=2018&num=201822&name=MANGKHUT&from_warning=true"
+# driver = webdriver.Chrome()
+# driver.get(url)
+# alt =driver.find_elements_by_css_selector(".alt")#type為list
+# print(alt[0].text)#第0個是颱風名稱
+# print(alt[2].text)#第2個是發佈時間
 
 def main_url():
     global listarr
     driver.get(url)
-    time.sleep(5)
+    # time.sleep(5)
     listarr = driver.find_elements_by_class_name("typhoon_id")[i:]
-    print("listarr",listarr[0])
+    # print("listarr",listarr[0])
 
-'''
 if __name__=="__main__":
     driver = webdriver.Chrome() 
     driver.maximize_window()
+    driver.implicitly_wait(10)#可以click到最後
     url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
     i = 0 
     # driver = webdriver.Chrome(executable_path=".exe黨的絕對路徑")
@@ -32,15 +30,14 @@ if __name__=="__main__":
     while listarr:
         # print("while listarr",listarr)
         listarr[0].click()
-        time.sleep(8)
-        # driver.implicitly_wait(10)#可以click到最後
+        time.sleep(5)
         f = open("driver.log","a")
-        f.write(driver.current_url)
-        f.write('\n')#显示写入换行
+        f.write(driver.current_url+"\n")
+        # f.write('\n')#显示写入换行
         # print(driver.current_url)
         i+=1
         main_url()
-'''    
+ 
 
 
 # # driver.find_element_by_xpath("//td[@width='40' and @value='1']").click()
@@ -63,25 +60,25 @@ if __name__=="__main__":
 
 
 
-typhoon_info = driver.find_elements_by_class_name("typhoon_detail")
-print(typhoon_info)
-alt = typhoon_info.find_elements_by_css_selector(".alt")
-# print(len(alt))
-# print(alt.text)
-for name_list in alt:
-    print(name_list.text)
+# typhoon_info = driver.find_elements_by_class_name("typhoon_detail")
+# print(typhoon_info)
+# alt = typhoon_info.find_elements_by_css_selector(".alt")
+# # print(len(alt))
+# # print(alt.text)
+# for name_list in alt:
+#     print(name_list.text)
 
-time.sleep(2)
-name = driver.find_element_by_css_selector(".alt")
-print(type(name))
-print(name.text)
+# time.sleep(2)
+# name = driver.find_element_by_css_selector(".alt")
+# print(type(name))
+# print(name.text)
 
-time.sleep(2)
+# time.sleep(2)
 # start_time = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")
 # print(start_time[4].text)
 
-start_time = driver.find_elements_by_css_selector(".alt")
-print(start_time[3].text)
+# start_time = driver.find_elements_by_css_selector(".alt")
+# print(start_time[3].text)
 # title = driver.find_element_by_class_name("tyde_t")
 # print(title.text)
 
@@ -89,4 +86,4 @@ print(start_time[3].text)
 #     data = name.text
 #     print(type(data))
     # print(data)
-driver.close()  # 關掉Driver打開的瀏覽器
+# driver.close()  # 關掉Driver打開的瀏覽器
