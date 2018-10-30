@@ -20,7 +20,7 @@ def main_url():
 if __name__=="__main__":
     driver = webdriver.Chrome() 
     driver.maximize_window()
-    # driver.implicitly_wait(10)#可以click到最後
+    driver.implicitly_wait(10)#可以click到最後
     url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning"
     i = 0 
     # driver = webdriver.Chrome(executable_path=".exe黨的絕對路徑")
