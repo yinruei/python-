@@ -27,10 +27,11 @@ elif len(warning_sums) == 3:
     print("second warning")
     #發布兩次警報的
     print("第一次警報")
-    start_title = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[4].text
-    start_time = driver.find_elements_by_xpath("//td[@align='left']")[10].text
-    end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text
-    end_time   = driver.find_elements_by_xpath("//td[@align='left']")[13].text
+    start_title = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[4].text#發布時間
+    start_time = driver.find_elements_by_xpath("//td[@align='left']")[10].text#海上或陸上時間
+    end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text#解除時間
+    end_time   = driver.find_elements_by_xpath("//td[@align='left']")[13].text#海上或陸上時間
+
 
     if len(start_time) <= 19:#只有海上發布跟海上解除
         # sea_warn_start     = start_time[0:2] + start_title[0:2] + ":" + start_time[3:]    #start_title[4].text[0:2], start_time[9].text[0:2] + end_title[5].text[0:2]
@@ -102,7 +103,6 @@ elif len(warning_sums) == 3:
             print(ty_data1)
 
 
-
 else:
     print("only one warning")
 
@@ -147,8 +147,8 @@ else:
         # print(type(ty_data))
 
 ty_data = list(map(lambda x: {x[0]: x[1].strftime('%Y-%m-%d %H:%M')}, ty_data))
-
-data[name] = ty_data
+ty_data1 = list(map(lambda x: {x[0]: x[1].strftime('%Y-%m-%d %H:%M')}, ty_data1))
+data[name] = ty_data + ty_data1
 with open('typhoon_warning.json', 'w', encoding = 'utf-8') as f:
     json.dump(data, f, ensure_ascii=False)
 
