@@ -11,12 +11,13 @@ from datetime import datetime
 web = open("driver.log","r",encoding='UTF-8-sig')
 urls = web.readlines()
 print(type(urls))
-for url in urls[0:3]:
+for url in urls:
     print("url",url)
 
 # url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/typhoon?year=1986&num=198612&name=WAYNE&from_warning=true"
     driver = webdriver.Chrome()
     driver.get(url)
+    driver.implicitly_wait(10)
     # ty_name = driver.find_elements_by_xpath("//td[@colspan='1' and @align='left']")
     # print(ty_name[0].text)# print(alt[2].text)#第2個是發佈時間
     name = driver.find_elements_by_css_selector(".alt")[0].text[3:]
