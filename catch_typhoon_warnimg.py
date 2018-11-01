@@ -4,11 +4,6 @@ from selenium import webdriver
 import time
 
 # url = "http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/typhoon?year=2018&num=201822&name=MANGKHUT&from_warning=true"
-# driver = webdriver.Chrome()
-# driver.get(url)
-# alt =driver.find_elements_by_css_selector(".alt")#type為list
-# print(alt[0].text)#第0個是颱風名稱
-# print(alt[2].text)#第2個是發佈時間
 
 def main_url():
     global listarr
