@@ -8,10 +8,11 @@ import json
 import time
 from datetime import datetime
 
+begin_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+print("起始時間為 :", begin_time)
 web = open("driver.log","r",encoding='UTF-8-sig')
 urls = web.readlines()
 data={}
-result = []
 
 for url in urls:
     driver = webdriver.Chrome()
@@ -20,7 +21,7 @@ for url in urls:
     # ty_name = driver.find_elements_by_xpath("//td[@colspan='1' and @align='left']")
     # print(ty_name[0].text)# print(alt[2].text)#第2個是發佈時間
     name = driver.find_elements_by_css_selector(".alt")[0].text[3:]
-    print(name)
+    # print(name)
 
     warning_sums = driver.find_elements_by_xpath("//th[@align='center' and @class='td_title']")
     if len(warning_sums) == 0:
@@ -30,6 +31,10 @@ for url in urls:
         start_time = driver.find_elements_by_xpath("//td[@align='left']")[9].text
         end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text
         end_time   = driver.find_elements_by_xpath("//td[@align='left']")[11].text
+        number     = driver.find_elements_by_xpath("//td[@colspan='1' and @align='left']")[1].text
+
+        ty_name = number + name
+        print(ty_name)
 
         if len(start_time) <= 19:#只有海上發布跟海上解除
             # sea_warn_start     = start_time[0:2] + start_title[0:2] + ":" + start_time[3:]    #start_title[4].text[0:2], start_time[9].text[0:2] + end_title[5].text[0:2]
@@ -63,16 +68,20 @@ for url in urls:
             # print(ty_data)
             ty_data = list(map(lambda x: {x[0]: x[1].strftime('%Y-%m-%d %H:%M')}, ty_data))
             # print(ty_data)
-        data[name] = ty_data
+        data[ty_name] = ty_data
 
     elif len(warning_sums) == 3:
         print("<<<<<second warning>>>>>>>")
         #發布兩次警報的
         print("第一次警報")
         start_title = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[4].text#發布時間
-        start_time = driver.find_elements_by_xpath("//td[@align='left']")[10].text#海上或陸上時間
-        end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text#解除時間
-        end_time   = driver.find_elements_by_xpath("//td[@align='left']")[13].text#海上或陸上時間
+        start_time  = driver.find_elements_by_xpath("//td[@align='left']")[10].text#海上或陸上時間
+        end_title   = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text#解除時間
+        end_time    = driver.find_elements_by_xpath("//td[@align='left']")[13].text#海上或陸上時間
+        number      = driver.find_elements_by_xpath("//td[@colspan='2' and @align='left']")[1].text
+                
+        ty_name = number + name
+        print(ty_name)
 
         if len(start_time) <= 19:#只有海上發布跟海上解除
             sea_warn_start_dt  = datetime.strptime(start_time[3:], '%Y-%m-%d %H:%M')#把一個時間字串解析為時間元組
@@ -127,29 +136,33 @@ for url in urls:
             sea_warn_end    = end_time1[20:22]   + end_title1[0:2]  + ":" + end_time1[23:]
 
             sea_warn_start_dt  = datetime.strptime(start_time1[3:19], '%Y-%m-%d %H:%M')#把一個時間字串解析為時間元組
-            sea_warn_start1     = [start_time1[0:2] + start_title1[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
+            sea_warn_start1    = [start_time1[0:2] + start_title1[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
             land_warn_start_dt = datetime.strptime(start_time1[23:], '%Y-%m-%d %H:%M')
-            land_warn_start1    = [start_time1[20:22] + start_title1[0:2], land_warn_start_dt]
+            land_warn_start1   = [start_time1[20:22] + start_title1[0:2], land_warn_start_dt]
 
             sea_warn_end_dt    = datetime.strptime(end_time1[23:], '%Y-%m-%d %H:%M')
-            sea_warn_end1       = [end_time1[20:22] + end_title1[0:2], sea_warn_end_dt]
+            sea_warn_end1      = [end_time1[20:22] + end_title1[0:2], sea_warn_end_dt]
             land_warn_end_dt   = datetime.strptime(end_time1[3:19], '%Y-%m-%d %H:%M')
-            land_warn_end1      = [end_time1[0:2] + end_title1[0:2] , land_warn_end_dt]
+            land_warn_end1     = [end_time1[0:2] + end_title1[0:2] , land_warn_end_dt]
 
         #   print(sea_warn_start_dt, type(sea_warn_start_dt), type(land_warn_start_dt))
             ty_data1 = [sea_warn_start1, land_warn_start1, sea_warn_end1, land_warn_end1]
             # print(ty_data)
             ty_data1.sort(key=lambda x: x[1])
             ty_data1 = list(map(lambda x: {x[0]: x[1].strftime('%Y-%m-%d %H:%M')}, ty_data1))
-        data[name] = ty_data + ty_data1
+        data[ty_name] = ty_data + ty_data1
 
     elif len(warning_sums) == 4:
         print("<<<<<<third warning>>>>>>")
         print("第一次警報")
         start_title = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[4].text#發布時間
-        start_time = driver.find_elements_by_xpath("//td[@align='left']")[11].text#海上或陸上時間
-        end_title  = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text#解除時間
-        end_time   = driver.find_elements_by_xpath("//td[@align='left']")[15].text#海上或陸上時間
+        start_time  = driver.find_elements_by_xpath("//td[@align='left']")[11].text#海上或陸上時間
+        end_title   = driver.find_elements_by_xpath("//td[@align='left' and @class='td_title']")[5].text#解除時間
+        end_time    = driver.find_elements_by_xpath("//td[@align='left']")[15].text#海上或陸上時間
+        number      = driver.find_elements_by_xpath("//td[@colspan='3' and @align='left']")[1].text
+
+        ty_name = number + name
+        print(ty_name)
 
         if len(start_time) <= 19:#只有海上發布跟海上解除
             sea_warn_start_dt  = datetime.strptime(start_time[3:], '%Y-%m-%d %H:%M')#把一個時間字串解析為時間元組
@@ -202,14 +215,14 @@ for url in urls:
             sea_warn_end    = end_time1[20:22]   + end_title1[0:2]  + ":" + end_time1[23:]
 
             sea_warn_start_dt  = datetime.strptime(start_time1[3:19], '%Y-%m-%d %H:%M')#把一個時間字串解析為時間元組
-            sea_warn_start1     = [start_time1[0:2] + start_title1[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
+            sea_warn_start1    = [start_time1[0:2] + start_title1[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
             land_warn_start_dt = datetime.strptime(start_time1[23:], '%Y-%m-%d %H:%M')
-            land_warn_start1    = [start_time1[20:22] + start_title1[0:2], land_warn_start_dt]
+            land_warn_start1   = [start_time1[20:22] + start_title1[0:2], land_warn_start_dt]
 
             sea_warn_end_dt    = datetime.strptime(end_time1[23:], '%Y-%m-%d %H:%M')
-            sea_warn_end1       = [end_time1[20:22] + end_title1[0:2], sea_warn_end_dt]
+            sea_warn_end1      = [end_time1[20:22] + end_title1[0:2], sea_warn_end_dt]
             land_warn_end_dt   = datetime.strptime(end_time1[3:19], '%Y-%m-%d %H:%M')
-            land_warn_end1      = [end_time1[0:2] + end_title1[0:2] , land_warn_end_dt]
+            land_warn_end1     = [end_time1[0:2] + end_title1[0:2] , land_warn_end_dt]
 
             ty_data1 = [sea_warn_start1, land_warn_start1, sea_warn_end1, land_warn_end1]
             ty_data1.sort(key=lambda x: x[1])
@@ -237,26 +250,29 @@ for url in urls:
             sea_warn_end    = end_time2[20:22]   + end_title2[0:2]  + ":" + end_time2[23:]
 
             sea_warn_start_dt  = datetime.strptime(start_time2[3:19], '%Y-%m-%d %H:%M')#把一個時間字串解析為時間元組
-            sea_warn_start2     = [start_time2[0:2] + start_title2[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
+            sea_warn_start2    = [start_time2[0:2] + start_title2[0:2], sea_warn_start_dt]#['海上發布', datetime.datetime(2017, 8, 20, 23, 30)]
             land_warn_start_dt = datetime.strptime(start_time2[23:], '%Y-%m-%d %H:%M')
-            land_warn_start2    = [start_time2[20:22] + start_title2[0:2], land_warn_start_dt]
+            land_warn_start2   = [start_time2[20:22] + start_title2[0:2], land_warn_start_dt]
 
             sea_warn_end_dt    = datetime.strptime(end_time2[23:], '%Y-%m-%d %H:%M')
-            sea_warn_end2       = [end_time2[20:22] + end_title2[0:2], sea_warn_end_dt]
+            sea_warn_end2      = [end_time2[20:22] + end_title2[0:2], sea_warn_end_dt]
             land_warn_end_dt   = datetime.strptime(end_time2[3:19], '%Y-%m-%d %H:%M')
-            land_warn_end2      = [end_time2[0:2] + end_title2[0:2] , land_warn_end_dt]
+            land_warn_end2     = [end_time2[0:2] + end_title2[0:2] , land_warn_end_dt]
 
             ty_data2 = [sea_warn_start2, land_warn_start2, sea_warn_end2, land_warn_end2]
             ty_data2.sort(key=lambda x: x[1])
             ty_data2 = list(map(lambda x: {x[0]: x[1].strftime('%Y-%m-%d %H:%M')}, ty_data2))
 
-        data[name] = ty_data + ty_data1 + ty_data2 
+        data[ty_name] = ty_data + ty_data1 + ty_data2 
 
     driver.close()
 
-result.append(data)    
+# result.append(data)    
 with open('typhoon_warning.json', 'w', encoding = 'utf-8') as f:
-    json.dump(result, f, ensure_ascii=False)
+    json.dump(data, f, ensure_ascii=False)
+    print("完成json檔")
+    end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+    print("結束時間為 :", end_time)
 
 
 
