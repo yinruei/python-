@@ -90,7 +90,7 @@ def days_until_birthday(birthday):
     """How long until my next birthday?"""
     today = datetime.today()
      # when is my birthday this year?
-    next_birthday = datetime(today.year, today.month, today.day)
+    next_birthday = datetime(today.year, birthday.month, birthday.day)
 
     # if it has gone by, when will it be next year
     if today > next_birthday:
@@ -98,6 +98,7 @@ def days_until_birthday(birthday):
 
     # subtraction on datetime objects returns a timedelta object
     delta = next_birthday - today
+    # print(help(delta))#他是一個timedelta的class
     return delta.days
 
 def double_day(b1, b2):
@@ -108,7 +109,7 @@ def double_day(b1, b2):
     """
     assert b1 > b2
     delta = b1 - b2
-    dday = b1 + delta
+    dday = delta + b1
     return dday
 
 def datetime_exercises():
@@ -116,8 +117,9 @@ def datetime_exercises():
 
     # print today's day of the week
     today = datetime.today()
-    print(today.weekday())
-    print(today.strftime('%A'))
+    print(today)
+    print(today.weekday())# Monday is 0 and Sunday is 6
+    print(today.strftime('%A'))# %A: Weekday as locale’s full name. ex:Sunday, Monday, …, Saturday (en_US);
 
     # compute the number of days until the next birthday
     # (note that it usually gets rounded down)
@@ -126,8 +128,8 @@ def datetime_exercises():
     print(days_until_birthday(birthday))
 
     # compute the day one person is twice as old as another
-    b1 = datetime(2006, 12, 26)
-    b2 = datetime(2003, 10, 11)
+    b1 = datetime(1993, 9, 29)
+    b2 = datetime(1992, 9, 29)
     print('Double Day', end=' ')
     print(double_day(b1, b2))
 
