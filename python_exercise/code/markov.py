@@ -121,3 +121,4 @@ def main(script, filename='158-0.txt', n=100, order=2):
 
 if __name__ == '__main__':
     main(*sys.argv)
+    # main()

@@ -10,13 +10,14 @@ class Time:
         minute: int
         second: int or float
         """
-        self.hour = hour
-        self.minute = minute
-        self.second = second
+        minutes = hour * 60 + minute
+        self.seconds = minutes * 60 + second
 
     def __str__(self):
         """Returns a string representation of the time."""
-        return ' %.2d:%.2d:%.2d ' % (self.hour, self.minute, self.second)
+        minutes, second = divmod(self.seconds, 60)
+        hour, minute = divmod(minutes, 60)
+        return ' %.2d:%.2d:%.2d ' % (hour, minute, second)
 
     def print_time(self):
         """Prints a string representation of the time."""
@@ -24,13 +25,11 @@ class Time:
 
     def time_to_int(self):
         """Computes the number of seconds since midnight."""
-        minutes = self.hour * 60 + self.minute
-        seconds = minutes * 60 + self.second
-        return seconds
+        return self.seconds
 
     def is_after(self, other):
         """Returns True if t1 is after t2; false otherwise."""
-        return self.time_to_int() > other.time_to_int()
+        return self.seconds > other.seconds
 
     # def __add__(self, other):# 有了它就能在Time物件上使用 + 運算子
     #     """Adds two Time objects or a Time object and a number.
@@ -49,70 +48,58 @@ class Time:
         else:
             return self.increment(other)
 
-    def __sub__(self, that):  # 定義 - 運算
-        seconds = self.time_to_int() - that.time_to_int()
-        return int_to_time(seconds)
+    # def __sub__(self, that):  # 定義 - 運算
+    #     seconds = self.time_to_int() - that.time_to_int()
+    #     return int_to_time(seconds)
 
     def add_time(self, other):
         """Adds two time objects."""
         assert self.is_valid() and other.is_valid()
-        seconds = self.time_to_int() + other.time_to_int()
+        seconds = self.seconds + other.seconds
         return int_to_time(seconds)
 
     def increment(self, seconds):
         """Returns a new Time that is the sum of this time and seconds."""
-        seconds += self.time_to_int()
+        seconds += self.seconds
         return int_to_time(seconds)
 
     def is_valid(self):
         """Checks whether a Time object satisfies the invariants."""
-        if self.hour < 0 or self.minute < 0 or self.second < 0:
-            return False
-        if self.minute >= 60 or self.second >= 60:
-            return False
-        return True
+        return self.seconds >= 0 and self.seconds < 24*60*60
 
 def int_to_time(seconds):
     """Makes a new Time object.
 
     seconds: int seconds since midnight.
     """
-    minutes, second = divmod(seconds, 60)
-    hour, minute = divmod(minutes, 60)
-    time = Time(hour, minute, second)
-    return time
+    return Time(0, 0, seconds)
 
-def histogram(s):
-    d = dict()
-    for c in s:
-        if c not in d:
-            d[c] = 1
-        else:
-            print('123')
-            # d[c] = d[c] +1
-    return d
+def main():
+    start = Time(9, 45, 00)
+    start.print_time()
 
-t = ['spam', 'egg', 'spam', 'spam', 'bacon', 'spam', 'peee']
-print(histogram(t))
+    end = start.increment(1337)
+    end.print_time()
 
-time = Time(9)
-time.print_time()
+    print('Is end after start?')
+    print(end.is_after(start))
 
-time = Time(9, 45)
-time.print_time()
+    print('Using __str__')
+    print(start, end)
 
-start = Time(9, 45)
-duration = Time(1,35)
-print(duration + start)
-# print(start + 1337)
-print(1337 + start)
+    start = Time(9, 45)
+    duration = Time(1, 35)
+    print(start + duration)
+    print(start + 1337)
+    print(1337 + start)
 
-start = Time(9, 45)
-before = Time(1,35)
-print(start -  before)
+    print('Example of polymorphism')
+    t1 = Time(7, 43)
+    t2 = Time(7, 41)
+    t3 = Time(7, 37)
+    total = sum([t1, t2, t3])
+    print(total)
 
-t1 = Time(7, 43)
-t2 = Time(7, 41)
-t3 = Time(7, 37)
-total = sum([t1, t2, t3])
-print(total)
+
+if __name__ == '__main__':
+    main()
