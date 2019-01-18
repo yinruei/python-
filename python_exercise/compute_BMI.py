@@ -1,6 +1,7 @@
 import numpy as np
 
 arr = np.arange(10)
+print(arr) #== == == >    [0 1 2 3 4 5 6 7 8 9]
 print(type(arr)) #== == == >    [0 1 2 3 4 5 6 7 8 9]
 arr = np.arange(1, 10)
 print(arr)# == == == >    [1 2 3 4 5 6 7 8 9]
